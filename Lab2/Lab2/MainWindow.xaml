@@ -1,0 +1,80 @@
+﻿<Window x:Class="Lab2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab2"
+        mc:Ignorable="d"
+        Title="Lab2" Height="600" Width="800" Closing="Window_Closing">
+    <Window.Resources>
+        <DataTemplate x:Key="key_dataTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Parameter: "/>
+                <TextBlock Text="{Binding Path=P}"/>
+                <TextBlock Text=";  Nodes: "/>
+                <TextBlock Text="{Binding Path=Nodes}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.New" Executed="NewCommandHandler"/>
+        <CommandBinding Command="ApplicationCommands.Open" Executed="OpenCommandHandler"/>
+        <CommandBinding Command="ApplicationCommands.Save" CanExecute="CanSaveCommandHandler" Executed="SaveCommandHandler"/>
+        <CommandBinding Command="ApplicationCommands.Delete" CanExecute="CanDeleteCommandHandler" Executed="DeleteCommandHandler"/>
+        <CommandBinding Command="{x:Static local:MainWindow.AddModelCommand}" CanExecute="CanAddCommandHandler" Executed="AddCommandHandler"/>
+        <CommandBinding Command="{x:Static local:MainWindow.DrawCommand}" CanExecute="CanDrawCommandHandler" Executed="DrawCommandHandler"/>
+    </Window.CommandBindings>
+    <Grid x:Name="grid_main">
+        <WindowsFormsHost Name="winFormsHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="198,67,10.333,18.667"/>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="172" Margin="10,111,0,0" VerticalAlignment="Top" Width="175" SelectionMode="Multiple" ItemsSource="{Binding}" ItemTemplate="{StaticResource key_dataTemplate}"/>
+        <TextBox x:Name="textBox_xValue" HorizontalAlignment="Left" Height="23" Margin="116,306,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" />
+        <ComboBox x:Name="comboBox_format" HorizontalAlignment="Left" Margin="116,336,0,0" VerticalAlignment="Top" Width="69" Height="23" SelectedIndex="0"/>
+        <TextBox x:Name="textBox_parameter" HorizontalAlignment="Left" Height="23" Margin="131,392,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="54"/>
+        <TextBox x:Name="textBox_nodes" HorizontalAlignment="Left" Height="23" Margin="131,423,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="54"/>
+
+        <Label x:Name="label_xValue" Content="Value of x: [0, 1]" HorizontalAlignment="Left" Margin="17,306,0,0" VerticalAlignment="Top" Height="25" Width="99"/>
+        <Label x:Name="label_format" Content="Format:" HorizontalAlignment="Left" Margin="55,336,0,0" VerticalAlignment="Top" Height="23" Width="56"/>
+        <Label x:Name="label_parameter" Content="Parameter: [0, 10]" HorizontalAlignment="Left" Margin="21,392,0,0" VerticalAlignment="Top" Height="31" Width="105"/>
+        <Label x:Name="label_nodes" Content="Nodes: [3, 100]" HorizontalAlignment="Left" Margin="21,423,0,0" VerticalAlignment="Top" Height="36" Width="105"/>
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="783">
+            <MenuItem Header="FIle">
+                <MenuItem Header="New" Command="ApplicationCommands.New"/>
+                <MenuItem Header="Open" Command="ApplicationCommands.Open"/>
+                <MenuItem Header="Save" Command="ApplicationCommands.Save"/>
+            </MenuItem>
+
+            <MenuItem Header="Edit">
+                <MenuItem Header="Add" Command="{x:Static local:MainWindow.AddModelCommand}"/>
+                <MenuItem Header="Remove" Command="ApplicationCommands.Delete"/>
+            </MenuItem>
+            <MenuItem Header="Draw" Command="{x:Static local:MainWindow.DrawCommand}"/>
+        </Menu>
+        <ToolBar x:Name="toolBar" HorizontalAlignment="Left" Height="33" Margin="0,21,0,0" VerticalAlignment="Top" Width="793">
+            <Button Command="ApplicationCommands.New">
+                <Image Source="Resources/new.png" ToolTip="New"/>
+            </Button>
+            <Separator/>
+            <Button Command="ApplicationCommands.Open">
+                <Image Source="Resources/open.png" ToolTip="Open"/>
+            </Button>
+            <Separator/>
+            <Button Command="ApplicationCommands.Save">
+                <Image Source="Resources/save.png" ToolTip="Save"/>
+            </Button>
+            <Separator/>
+            <Button Command="{x:Static local:MainWindow.AddModelCommand}">
+                <Image Source="Resources/add.png" ToolTip="Add"/>
+            </Button>
+            <Separator/>
+            <Button Command="ApplicationCommands.Delete">
+                <Image Source="Resources/remove.png" ToolTip="Remove"/>
+            </Button>
+            <Separator/>
+            <Button Command="{x:Static local:MainWindow.DrawCommand}">
+                <Image Source="Resources/draw.png" ToolTip="Draw"/>
+            </Button>
+            <Separator/>
+        </ToolBar>
+        <Label x:Name="label" HorizontalContentAlignment="Center" Content="f(x; p) = sin(px)" Margin="10,67,608.333,0" VerticalAlignment="Top" Height="39" Width="175" FontSize="20"/>
+    </Grid>
+</Window>
